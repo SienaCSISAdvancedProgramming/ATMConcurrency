@@ -62,7 +62,9 @@ public class ATM extends Thread {
             try {
                 sleep(TRANSACTION_INTERVAL);
             }
-            catch (Exception e) {}
+            catch (InterruptedException e) {
+		System.err.println(e);
+	    }
         }
     }
 }

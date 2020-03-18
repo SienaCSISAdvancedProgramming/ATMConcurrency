@@ -59,7 +59,9 @@ public class ATM extends Thread {
             try {
                 sleep(pauseGenerator.nextInt(MAX_PAUSE)+1);
             }
-            catch (Exception e) {}
+            catch (InterruptedException e) {
+		System.err.println(e);
+	    }
             
             account.setBalance(balance + change);
 
@@ -70,7 +72,9 @@ public class ATM extends Thread {
             try {
                 sleep(TRANSACTION_INTERVAL);
             }
-            catch (Exception e) {}
+            catch (InterruptedException e) {
+		System.err.println(e);
+	    }
         }
     }
 }

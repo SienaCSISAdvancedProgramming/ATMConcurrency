@@ -6,20 +6,22 @@ import javax.swing.*;
  * Class that represents a bank with two ATM's making deposits and withdrawals.
  * This program was designed to illustrate problems with concurrency.
  * Written 11/26/99 by Kim Bruce.
- * Changed 3/16/99 by Barbara Lerner to use a different UI showing just current values, not
+ * Changed 3/16/99 by Barbara Lerner to use a different UI showing just current
+ * values, not
  * a transaction history.
  * 
  * @author updated by Jim Teresco, Siena College, Spring 2011
- * Further updated for Swing and to remove dependency on Objectdraw
- * by Jim Teresco, The College of Saint Rose, Fall 2013, CSC 252
- * Further updated to remove JApplet, Jim Teresco, Siena College, Spring 2020
- * @version Spring 2020
+ *         Further updated for Swing and to remove dependency on Objectdraw
+ *         by Jim Teresco, The College of Saint Rose, Fall 2013, CSC 252
+ *         Further updated to remove JApplet, Jim Teresco, Siena College, Spring
+ *         2020
+ * @version Spring 2022
  */
 
 public class Bank implements Runnable, ActionListener {
 
-    private static final int INITIAL_BALANCE = 1000;        // Initial balance in bank account
-    private static final int TRANSACTION_AMOUNT = 100;      // how much to deposit/withdraw per xaction
+    private static final int INITIAL_BALANCE = 1000; // Initial balance in bank account
+    private static final int TRANSACTION_AMOUNT = 100; // how much to deposit/withdraw per xaction
 
     private JLabel currentBalanceLabel;
     private JLabel withdrawTotalLabel;
@@ -29,13 +31,13 @@ public class Bank implements Runnable, ActionListener {
     @Override
     public void run() {
 
-	JFrame.setDefaultLookAndFeelDecorated(true);
-	JFrame frame = new JFrame("Danger1");
-	frame.setPreferredSize(new Dimension(500,500));
-	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JFrame.setDefaultLookAndFeelDecorated(true);
+        JFrame frame = new JFrame("Danger1");
+        frame.setPreferredSize(new Dimension(500, 500));
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-	JPanel panel = new JPanel(new GridLayout(0, 1));
-	
+        JPanel panel = new JPanel(new GridLayout(0, 1));
+
         JLabel startBalance = new JLabel("Starting balance:  " + INITIAL_BALANCE, JLabel.CENTER);
         JLabel currentLabel = new JLabel("Current balance:  ", JLabel.RIGHT);
         currentBalanceLabel = new JLabel("" + INITIAL_BALANCE + "     ", JLabel.LEFT);
@@ -44,14 +46,14 @@ public class Bank implements Runnable, ActionListener {
         JLabel depositLabel = new JLabel("Amount deposited:  ", JLabel.RIGHT);
         depositTotalLabel = new JLabel("         0    ", JLabel.LEFT);
 
-	Font bigger = new Font("System", Font.PLAIN, 18);
-	startBalance.setFont(bigger);
-	currentLabel.setFont(bigger);
-	currentBalanceLabel.setFont(bigger);
-	withdrawLabel.setFont(bigger);
-	withdrawTotalLabel.setFont(bigger);
-	depositLabel.setFont(bigger);
-	depositTotalLabel.setFont(bigger);
+        Font bigger = new Font("System", Font.PLAIN, 18);
+        startBalance.setFont(bigger);
+        currentLabel.setFont(bigger);
+        currentBalanceLabel.setFont(bigger);
+        withdrawLabel.setFont(bigger);
+        withdrawTotalLabel.setFont(bigger);
+        depositLabel.setFont(bigger);
+        depositTotalLabel.setFont(bigger);
 
         panel.add(startBalance);
 
@@ -72,34 +74,34 @@ public class Bank implements Runnable, ActionListener {
 
         JPanel buttonPanel = new JPanel();
         JButton runIt = new JButton("Run demo");
-        buttonPanel.add(runIt,"South");
+        buttonPanel.add(runIt, "South");
         panel.add(buttonPanel);
         runIt.addActionListener(this);
 
-	frame.add(panel);
-	frame.pack();
-	frame.setVisible(true);
+        frame.add(panel);
+        frame.pack();
+        frame.setVisible(true);
 
     }
 
     /**
-       Run the demo each time the button is pressed.
-       
-       @param evt ActionEvent that triggered this call
-    */
+     * Run the demo each time the button is pressed.
+     * 
+     * @param evt ActionEvent that triggered this call
+     */
     @Override
     public void actionPerformed(ActionEvent evt) {
-        
+
         Account account = new Account(INITIAL_BALANCE, currentBalanceLabel);
-        ATM atm1 = new ATM(account, 100, depositTotalLabel);
-        ATM atm2 = new ATM(account, -100, withdrawTotalLabel);
-	atm1.start();
-	atm2.start();
+        ATM atm1 = new ATM(account, TRANSACTION_AMOUNT, depositTotalLabel);
+        ATM atm2 = new ATM(account, -TRANSACTION_AMOUNT, withdrawTotalLabel);
+        atm1.start();
+        atm2.start();
     }
 
     public static void main(String args[]) {
 
-	javax.swing.SwingUtilities.invokeLater(new Bank());
+        javax.swing.SwingUtilities.invokeLater(new Bank());
     }
-    
+
 }
